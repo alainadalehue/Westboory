@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Westboory · Halloween in Westbury</title>
+  <meta name="description" content="Halloween is back in Westbury! Let neighbors know you'll hand out treats, and find houses to visit on the trick-or-treat map.">
+  <meta name="theme-color" content="#2a1f3d">
+  <meta property="og:title" content="Westboory · Halloween in Westbury">
+  <meta property="og:description" content="Will you hand out treats this Halloween? Add your house to the Westbury trick-or-treat map.">
+  <meta property="og:image" content="https://westboory.com/img/share.png">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="preview-banner" id="preview-banner" hidden>
+    Preview mode — sign-ups are not being saved yet. (Organizer: add your web app address to <code>js/config.js</code>.)
+  </div>
+
+  <header class="hero">
+    <div class="hero__inner">
+      <p class="eyebrow">Westbury · Houston, Texas</p>
+      <h1 class="wordmark">West<span class="wordmark__oo">boo</span>ry</h1>
+      <p class="hero__lede">Halloween is coming home to Westbury.<br>Let's keep the porch lights on — and the trick-or-treaters on our own streets.</p>
+      <p class="hero__date">
+        <span class="hero__date-day" data-config="eventDate">Saturday, October 31</span>
+        <span class="hero__date-sep" aria-hidden="true">✦</span>
+        <span data-config="eventTime">6:00 – 8:30 pm</span>
+      </p>
+    </div>
+    <div class="hero__art" aria-hidden="true">
+      <svg viewBox="0 0 1200 260" preserveAspectRatio="xMidYMax slice" class="ranch">
+        <!-- moon + atomic stars -->
+        <circle cx="1010" cy="70" r="38" class="ranch__moon"/>
+        <g class="ranch__star">
+          <path d="M180 60 l4 14 14 4 -14 4 -4 14 -4 -14 -14 -4 14 -4z"/>
+          <path d="M860 40 l3 10 10 3 -10 3 -3 10 -3 -10 -10 -3 10 -3z"/>
+          <path d="M1120 140 l3 9 9 3 -9 3 -3 9 -3 -9 -9 -3 9 -3z"/>
+          <path d="M420 30 l2 7 7 2 -7 2 -2 7 -2 -7 -7 -2 7 -2z"/>
+        </g>
+        <!-- tree -->
+        <g class="ranch__tree">
+          <rect x="88" y="150" width="8" height="110"/>
+          <ellipse cx="92" cy="140" rx="54" ry="44"/>
+        </g>
+        <!-- carport -->
+        <g class="ranch__house">
+          <polygon points="210,168 470,150 470,160 214,178"/>
+          <rect x="226" y="176" width="6" height="84"/>
+          <rect x="452" y="160" width="6" height="100"/>
+        </g>
+        <!-- main house: low-pitched roof, long and lean -->
+        <g class="ranch__house">
+          <polygon points="440,150 760,110 1080,150 1080,162 760,124 440,162"/>
+          <rect x="470" y="158" width="590" height="102"/>
+        </g>
+        <rect x="490" y="186" width="120" height="44" class="ranch__window"/>
+        <rect x="806" y="186" width="200" height="44" class="ranch__window"/>
+        <line x1="840" y1="186" x2="840" y2="230" class="ranch__mullion"/>
+        <line x1="906" y1="186" x2="906" y2="230" class="ranch__mullion"/>
+        <line x1="972" y1="186" x2="972" y2="230" class="ranch__mullion"/>
+        <rect x="684" y="180" width="54" height="80" class="ranch__door"/>
+        <circle cx="728" cy="222" r="3" class="ranch__knob"/>
+        <!-- porch light -->
+        <circle cx="664" cy="192" r="18" class="ranch__glow"/>
+        <circle cx="664" cy="192" r="5" class="ranch__bulb"/>
+        <!-- breeze-block screen -->
+        <g class="ranch__breeze">
+          <circle cx="634" cy="212" r="6"/><circle cx="634" cy="232" r="6"/><circle cx="634" cy="252" r="6"/>
+          <circle cx="652" cy="212" r="6"/><circle cx="652" cy="232" r="6"/><circle cx="652" cy="252" r="6"/>
+        </g>
+        <!-- pumpkins on the porch -->
+        <g class="ranch__pumpkin">
+          <ellipse cx="770" cy="248" rx="20" ry="14"/>
+          <ellipse cx="800" cy="252" rx="13" ry="9"/>
+        </g>
+        <rect x="767" y="230" width="5" height="7" class="ranch__stem"/>
+        <rect x="798" y="240" width="4" height="5" class="ranch__stem"/>
+        <rect x="0" y="258" width="1200" height="4" class="ranch__ground"/>
+      </svg>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Sections">
+    <a href="#join" class="tabs__link">Join in</a>
+    <a href="#map" class="tabs__link">Map</a>
+    <a href="#streets" class="tabs__link">By street</a>
+  </nav>
+
+  <main id="main">
+
+    <!-- ─────────────── JOIN IN ─────────────── -->
+    <section id="join" class="section">
+      <div class="container">
+        <h2 class="section__title">Will you welcome trick-or-treaters?</h2>
+        <p class="section__intro">Tap one answer. It takes less than a minute.</p>
+
+        <div class="choices" id="choices">
+          <button type="button" class="choice choice--yes" data-choice="yes" aria-controls="panel-yes" aria-expanded="false">
+            <span class="choice__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><use href="#pumpkin"/></svg>
+            </span>
+            <span class="choice__text">
+              <strong>Yes! Count me in</strong>
+              <span>Put my house on the map</span>
+            </span>
+          </button>
+          <button type="button" class="choice choice--no" data-choice="no" aria-controls="panel-no" aria-expanded="false">
+            <span class="choice__icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><use href="#moon"/></svg>
+            </span>
+            <span class="choice__text">
+              <strong>Not this year</strong>
+              <span>Thanks for asking</span>
+            </span>
+          </button>
+        </div>
+
+        <!-- YES -->
+        <div class="panel" id="panel-yes" hidden>
+          <form class="form" id="form-yes" novalidate>
+            <h3 class="panel__title">Wonderful! Where should trick-or-treaters go?</h3>
+            <p class="panel__hint">Your house number and street are all we need. Nothing else is shown.</p>
+            <div class="field-row">
+              <div class="field field--num">
+                <label for="yes-number">House number</label>
+                <input id="yes-number" name="number" inputmode="numeric" autocomplete="off" maxlength="7" placeholder="5422" required>
+              </div>
+              <div class="field field--street">
+                <label for="yes-street">Street</label>
+                <input id="yes-street" name="street" list="street-list" autocomplete="off" autocapitalize="words" maxlength="60" placeholder="Start typing, e.g. Arboles Dr" required>
+              </div>
+            </div>
+            <label class="check">
+              <input type="checkbox" name="teal">
+              <span class="check__box" aria-hidden="true"></span>
+              <span><strong>I'll also have non-candy treats</strong> (stickers, glow sticks…) for kids with food allergies. We'll show a teal pumpkin at your house.</span>
+            </label>
+            <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <p class="form__error" role="alert" hidden></p>
+            <button type="submit" class="btn btn--primary">Add my house to the map</button>
+          </form>
+          <div class="done" hidden tabindex="-1">
+            <div class="done__icon" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#pumpkin"/></svg></div>
+            <h3 class="done__title">Thank you — you're on the map!</h3>
+            <p class="done__address"></p>
+            <p class="done__more">On Halloween, turn your porch light on so families know to stop by.</p>
+            <a class="btn btn--ghost" href="#map">See the map</a>
+          </div>
+        </div>
+
+        <!-- NO -->
+        <div class="panel" id="panel-no" hidden>
+          <div class="done" tabindex="-1">
+            <div class="done__icon" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#moon"/></svg></div>
+            <h3>Thanks for letting us know.</h3>
+            <p>No need to do anything else. If you change your mind, just come back and tap “Yes.”</p>
+          </div>
+        </div>
+
+        <!-- CANDY HELP -->
+        <div class="help-card" id="help">
+          <div class="help-card__art" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><use href="#bucket"/></svg>
+          </div>
+          <div class="help-card__body">
+            <h2 class="help-card__title">We'll bring the candy to you</h2>
+            <p>Would you enjoy greeting the little ones, but getting to the store is hard this year? A neighbor volunteer will drop off a bucket of candy before Halloween — free, with our thanks.</p>
+            <button type="button" class="btn btn--teal" data-choice="candy" aria-controls="panel-candy" aria-expanded="false">Yes, please bring me candy</button>
+
+            <div class="panel panel--inset" id="panel-candy" hidden>
+              <form class="form" id="form-candy" novalidate>
+                <p class="panel__hint">Your name and phone number are seen only by the volunteers.</p>
+                <div class="field">
+                  <label for="candy-name">Your name</label>
+                  <input id="candy-name" name="name" autocomplete="name" maxlength="80" required>
+                </div>
+                <div class="field-row">
+                  <div class="field field--num">
+                    <label for="candy-number">House number</label>
+                    <input id="candy-number" name="number" inputmode="numeric" autocomplete="off" maxlength="7" required>
+                  </div>
+                  <div class="field field--street">
+                    <label for="candy-street">Street</label>
+                    <input id="candy-street" name="street" list="street-list" autocomplete="off" autocapitalize="words" maxlength="60" required>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="candy-phone">Phone <span class="optional">(optional — so we can call before we stop by)</span></label>
+                  <input id="candy-phone" name="phone" type="tel" autocomplete="tel" maxlength="30">
+                </div>
+                <label class="check">
+                  <input type="checkbox" name="addToMap" checked>
+                  <span class="check__box" aria-hidden="true"></span>
+                  <span><strong>Also put my house on the trick-or-treat map</strong></span>
+                </label>
+                <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <p class="form__error" role="alert" hidden></p>
+                <button type="submit" class="btn btn--teal">Send my request</button>
+                <p class="form__note">Please ask by <span data-config="candyRequestDeadline">Sunday, October 25</span>.</p>
+              </form>
+              <div class="done" hidden tabindex="-1">
+                <div class="done__icon" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#bucket"/></svg></div>
+                <h3>Got it — treats are on the way!</h3>
+                <p>A neighbor will drop off your candy before Halloween. Thank you for joining in.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────── MAP ─────────────── -->
+    <section id="map" class="section section--map">
+      <div class="container">
+        <h2 class="section__title">Trick-or-treat map</h2>
+        <p class="section__intro" aria-live="polite"><span class="count" id="map-count">Loading houses…</span></p>
+        <div class="map-tools">
+          <button type="button" class="btn btn--small" id="btn-all">Show all of Westbury</button>
+          <button type="button" class="btn btn--small" id="btn-locate">Where am I?</button>
+        </div>
+        <div class="map-frame">
+          <div id="leaflet-map" class="map" role="region" aria-label="Map of houses handing out treats"></div>
+        </div>
+        <ul class="legend">
+          <li><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#pumpkin"/></svg> Handing out treats</li>
+          <li><svg viewBox="0 0 48 48" aria-hidden="true" class="is-teal"><use href="#pumpkin"/></svg> Also has non-candy treats</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ─────────────── BY STREET ─────────────── -->
+    <section id="streets" class="section">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <h2 class="section__title">Houses by street</h2>
+            <p class="section__intro">Handy when you're out walking. House numbers are in order.</p>
+          </div>
+          <div class="list-tools">
+            <div class="segmented" role="group" aria-label="Sort streets">
+              <button type="button" class="segmented__btn is-active" data-sort="az" aria-pressed="true">A – Z</button>
+              <button type="button" class="segmented__btn" data-sort="most" aria-pressed="false">Most houses</button>
+            </div>
+            <button type="button" class="btn btn--small btn--ghost" id="btn-print">Print list</button>
+          </div>
+        </div>
+        <div id="street-list-view" class="street-list" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="footer__line">Made by Westbury neighbors, for Westbury neighbors.</p>
+      <p class="footer__contact" id="footer-contact" hidden>Questions, or need your house taken off the map? Email <a id="organizer-email" href="#"></a>.</p>
+      <p class="footer__small">Please trick-or-treat safely: stay on sidewalks, carry a light, and only visit lit porches.</p>
+    </div>
+  </footer>
+
+  <datalist id="street-list"></datalist>
+
+  <!-- icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="pumpkin" viewBox="0 0 48 48">
+      <path class="i-stem" d="M22.5 6c2-1.6 4.6-1.4 5.6-.6.4.3.2.9-.3 1-1.6.5-2.6 1.8-2.8 4.2h-3c0-1.8 0-3.2.5-4.6z"/>
+      <path class="i-leaf" d="M27 10c3-3.4 7.6-3.6 9.6-1.8-2.6 2.6-6 3.4-9.6 1.8z"/>
+      <path class="i-body" d="M24 11.4c-2.2-1.5-5.2-1.9-8-1.1C9.2 12 5 18.4 5 26.3 5 35.6 11 42 18.4 42c2.2 0 4-.7 5.6-1.6 1.6.9 3.4 1.6 5.6 1.6C37 42 43 35.6 43 26.3 43 18.4 38.8 12 32 10.3c-2.8-.8-5.8-.4-8 1.1z"/>
+      <path class="i-rib" d="M24 12.5c-3.4 3.8-4.6 9-4.6 14.6s1.6 10.6 4.6 13.2c3-2.6 4.6-7.6 4.6-13.2S27.4 16.3 24 12.5zM15.6 11c-4 4-5.4 9.6-5 15.6.3 6 2.8 11.4 7.4 15.2-3.2-4.4-4.6-9.8-4.6-15.4 0-5.6 .8-10.6 2.2-15.4zM32.4 11c4 4 5.4 9.6 5 15.6-.3 6-2.8 11.4-7.4 15.2 3.2-4.4 4.6-9.8 4.6-15.4 0-5.6-.8-10.6-2.2-15.4z"/>
+    </symbol>
+    <symbol id="moon" viewBox="0 0 48 48">
+      <path class="i-moon" d="M30.5 6.5A18 18 0 1 0 41.5 34 15 15 0 0 1 30.5 6.5z"/>
+      <path class="i-spark" d="M36 9l1.2 3.6 3.6 1.2-3.6 1.2L36 18.6l-1.2-3.6-3.6-1.2 3.6-1.2z"/>
+    </symbol>
+    <symbol id="bucket" viewBox="0 0 48 48">
+      <path class="i-handle" d="M10 20c0-9 6.3-15 14-15s14 6 14 15" fill="none" stroke-width="2.6" stroke-linecap="round"/>
+      <path class="i-body" d="M6.5 18.5h35c1 0 1.7.9 1.5 1.9L39.6 38c-.6 3.2-3.4 5.5-6.6 5.5H15c-3.2 0-6-2.3-6.6-5.5L5 20.4c-.2-1 .5-1.9 1.5-1.9z"/>
+      <path class="i-face" d="M15.5 27.5l3.5-3 3.5 3zM25.5 27.5l3.5-3 3.5 3zM16 33c2.4 2.8 5 4 8 4s5.6-1.2 8-4l-2.6 1.2-1.6-1.6-1.8 1.8-2-1.8-2 1.8-1.8-1.8-1.6 1.6z"/>
+      <circle class="i-candy" cx="17" cy="14" r="3.4"/><circle class="i-candy2" cx="25" cy="12" r="3.4"/><circle class="i-candy" cx="32" cy="14.5" r="3"/>
+    </symbol>
+  </svg>
+
+  <script src="js/config.js"></script>
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
