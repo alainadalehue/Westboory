@@ -3,8 +3,8 @@
 About 30 minutes, no coding. You'll set up three free things:
 
 1. **A Google Sheet** that stores sign-ups. It's also your dashboard.
-2. **Netlify**, which hosts the website.
-3. **westboory.com**, pointed at Netlify.
+2. **GitHub Pages**, which hosts the website.
+3. **westboory.com**, pointed at GitHub Pages.
 
 ---
 
@@ -42,25 +42,38 @@ Open `js/config.js` on GitHub (open the file, then click the ✏️ pencil icon)
 
 Click **Commit changes**.
 
-## Step 4: Put the site online with Netlify
+## Step 4: Make the repository public
 
-Your GitHub repository is private, and GitHub Pages only hosts private repositories on paid plans. Netlify does it for free.
+GitHub Pages hosts private repositories only on paid plans. On a free account, the repository has to be public.
 
-1. Go to **netlify.com** and sign up using **Sign up with GitHub**.
-2. Click **Add new site → Import an existing project → GitHub**, then pick **Westboory**.
-3. Leave the build command **empty**. Set the publish directory to **`.`** (just a dot). Click **Deploy**.
-4. After about a minute you'll have a working address like `something-random.netlify.app`. Open it on your phone and try it.
+1. On GitHub, open the **Westboory** repository and click **⚙ Settings** (on the top bar, at the far right).
+2. Scroll all the way down to the red **Danger Zone** and click **Change visibility → Change to public**.
+3. Confirm the warnings and type the repository name when asked.
 
-From now on, every change you commit on GitHub updates the site automatically.
+Going public shows only the website's code. Neighbors' sign-ups live in your Google Sheet and are never in the repository.
 
-## Step 5: Connect westboory.com
+## Step 5: Turn on GitHub Pages and connect westboory.com
 
-In Netlify, go to **Domain management → Add a domain** and type `westboory.com`.
+1. In the repository, go to **⚙ Settings → Pages** (in the left sidebar).
+2. Under **Build and deployment**, set **Source** to **Deploy from a branch**. Set **Branch** to **main**, keep the folder as **/ (root)**, and click **Save**.
+3. After a minute or two, the site is live at `https://alainadalehue.github.io/Westboory/`. Open it on your phone and try it.
+4. Under **Custom domain**, type `westboory.com` and click **Save**.
+5. Where you bought the domain (GoDaddy, Namecheap, Squarespace, Google…), open its **DNS settings** and add these records:
 
-- **If you haven't bought the domain yet:** Netlify can sell it to you right there, and everything is set up for you.
-- **If you bought it somewhere else** (GoDaddy, Namecheap, Squarespace…): Netlify shows the DNS records to add at that company. It's usually easiest to choose "Set up Netlify DNS" and change the nameservers where you bought the domain.
+   | Type | Name / Host | Value |
+   |---|---|---|
+   | A | @ | 185.199.108.153 |
+   | A | @ | 185.199.109.153 |
+   | A | @ | 185.199.110.153 |
+   | A | @ | 185.199.111.153 |
+   | CNAME | www | alainadalehue.github.io |
 
-Netlify turns on the secure padlock (HTTPS) by itself. It can take a few hours to start working.
+   Delete any other **A** records for **@** (many companies add a "parking" record by default).
+6. Back in **Settings → Pages**, wait for the DNS check to pass, then tick **Enforce HTTPS**. DNS changes can take anywhere from a few minutes to a few hours.
+
+If you haven't bought westboory.com yet, buy it from any domain company first, then do steps 4–6.
+
+From now on, every change you commit on GitHub updates the site automatically within a minute or two.
 
 ## Step 6: Test it before sharing
 
