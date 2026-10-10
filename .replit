@@ -1,0 +1,11 @@
+# Replit settings: preview with the Run button, publish as a free static site.
+modules = ["python-3.12"]
+run = "python3 -m http.server 8080"
+
+[[ports]]
+localPort = 8080
+externalPort = 80
+
+[deployment]
+deploymentTarget = "static"
+publicDir = "/"

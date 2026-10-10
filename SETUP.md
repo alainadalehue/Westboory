@@ -1,10 +1,11 @@
 # Putting Westboory online
 
-About 30 minutes, no coding. You'll set up three free things:
+About 30 minutes, no coding. You'll set up two free things:
 
 1. **A Google Sheet** that stores sign-ups. It's also your dashboard.
-2. **GitHub Pages**, which hosts the website.
-3. **westboory.com**, pointed at GitHub Pages.
+2. **Replit**, which hosts the website.
+
+A custom address like westboory.com is optional and can come later.
 
 ---
 
@@ -30,7 +31,7 @@ About 30 minutes, no coding. You'll set up three free things:
 
 ## Step 3: Add your details to the website
 
-Open `js/config.js` on GitHub (open the file, then click the ✏️ pencil icon). Change these lines:
+Open `js/config.js`, either on GitHub (open the file, then click the ✏️ pencil icon) or in Replit after Step 4. Change these lines:
 
 | Setting | What to put |
 |---|---|
@@ -42,38 +43,23 @@ Open `js/config.js` on GitHub (open the file, then click the ✏️ pencil icon)
 
 Click **Commit changes**.
 
-## Step 4: Make the repository public
+## Step 4: Bring the project into Replit
 
-GitHub Pages hosts private repositories only on paid plans. On a free account, the repository has to be public.
+1. Sign in at **replit.com**. The free Starter plan includes one static site, which is all Westboory needs.
+2. Click **+ Create App** (or **Import**), choose **Import from GitHub**, and connect your GitHub account if asked.
+3. Pick **alainadalehue/Westboory** and click **Import**.
+4. Click the green **▶ Run** button. A preview of the site opens inside Replit, with the yellow "Preview mode" bar until you finish Step 3.
 
-1. On GitHub, open the **Westboory** repository and click **⚙ Settings** (on the top bar, at the far right).
-2. Scroll all the way down to the red **Danger Zone** and click **Change visibility → Change to public**.
-3. Confirm the warnings and type the repository name when asked.
+If you edit `js/config.js` inside Replit instead of on GitHub, that's fine too. Just do your edits in one place so the two copies don't get out of step.
 
-Going public shows only the website's code. Neighbors' sign-ups live in your Google Sheet and are never in the repository.
+## Step 5: Publish it
 
-## Step 5: Turn on GitHub Pages and connect westboory.com
+1. In Replit, click **Publish** (or **Deploy**) at the top right.
+2. Choose **Static**. If it asks for a public directory, use **/** (the project's top folder). The project's `.replit` file already sets this.
+3. Click **Publish**. Your site goes live at an address like `westboory.replit.app`. Open it on your phone and try it.
+4. **Each time you change something, click Publish again.** Changes don't go live until you do.
 
-1. In the repository, go to **⚙ Settings → Pages** (in the left sidebar).
-2. Under **Build and deployment**, set **Source** to **Deploy from a branch**. Set **Branch** to **main**, keep the folder as **/ (root)**, and click **Save**.
-3. After a minute or two, the site is live at `https://alainadalehue.github.io/Westboory/`. Open it on your phone and try it.
-4. Under **Custom domain**, type `westboory.com` and click **Save**.
-5. Where you bought the domain (GoDaddy, Namecheap, Squarespace, Google…), open its **DNS settings** and add these records:
-
-   | Type | Name / Host | Value |
-   |---|---|---|
-   | A | @ | 185.199.108.153 |
-   | A | @ | 185.199.109.153 |
-   | A | @ | 185.199.110.153 |
-   | A | @ | 185.199.111.153 |
-   | CNAME | www | alainadalehue.github.io |
-
-   Delete any other **A** records for **@** (many companies add a "parking" record by default).
-6. Back in **Settings → Pages**, wait for the DNS check to pass, then tick **Enforce HTTPS**. DNS changes can take anywhere from a few minutes to a few hours.
-
-If you haven't bought westboory.com yet, buy it from any domain company first, then do steps 4–6.
-
-From now on, every change you commit on GitHub updates the site automatically within a minute or two.
+**Want westboory.com?** You can buy the domain through Replit (in the Publish settings, look for **Domains → Buy a domain**), and Replit connects it automatically. If you buy it somewhere else, choose **Link a domain** and add the DNS records Replit shows you. The `.replit.app` address works fine for the test run, so a custom domain is optional.
 
 ## Step 6: Test it before sharing
 
