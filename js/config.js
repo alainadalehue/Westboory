@@ -12,7 +12,7 @@ window.WESTBOORY = {
 
   // Shown at the top of the page.
   eventDate: "Saturday, October 31",
-  eventTime: "6:00 – 8:30 pm",
+  eventTime: "5:30 – 8:30 pm",
 
   // Where neighbors can reach you with questions or to remove their house.
   // Leave empty to hide.
